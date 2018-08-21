@@ -22,7 +22,7 @@ module.exports = function (sequelize, DataTypes) {
   });
 
   notification.associate = function (models) {
-    notification.belongsTo(models.orders, {
+    notification.belongsTo(models.Order, {
       foreignKey: "id",
       as: "order_id"
     });
