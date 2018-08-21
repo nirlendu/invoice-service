@@ -15,11 +15,11 @@ router.post('/order-post-process', function(req, res, next) {
   const orderId = req.body.orderId;
   const generationResponse = invoice.generateInvoice(orderId);
   if(generationResponse.status != 200){
-    if( generationResponse.status == (400, 401, 402, 403, 404)){
+    if([400, 401, 402, 403, 404].indexOf(generationResponse.status) >= 0){
       // RESOURCES ARE NOT PRESENT, PUSH TO QUEUE, NO NEED TO RETRY
       //TODO
     }
-    if( generationResponse.status == (500, 501, 502, 503)){
+    if([500, 501, 502, 503].indexOf(generationResponse.status) >= 0){
       // SOME EXCEPTION HAPPENED, RETRY NEEDED
       for(let i;i<RETRY;i++){
         let retryGenerationResponse = invoice.retryGenerateInvoice(orderId);
